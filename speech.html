@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>スピーチ・面接練習</title>
+<meta name="description" content="RMU 2026 チームJAPANの英語スピーチと面接の練習">
+<meta name="theme-color" content="#0d0b08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="back" href="index.html" aria-label="ホームへ">‹</a><h1>スピーチ・面接練習</h1><span class="flag">🎤</span></div></header>
+
+<main class="wrap">
+  <div class="card" style="margin-top:16px">
+    <h3>10/29 の流れ</h3>
+    <ol class="steps">
+      <li><b>非公開面接</b>：提出したプロフィール・経歴をもとに質問されます。ステージ上ではありません</li>
+      <li><b>スピーチ録画</b>：準備した <b>45秒〜1分</b> のスピーチをカメラの前で話します。上位3名に入ると会場の大画面で流れます。全員必ず録画します</li>
+    </ol>
+    <p class="sub" style="margin:0">服装：ビジネスフォーマル（エグゼクティブスタイル）。アップサイクル制作（13:00〜16:00）のあとに行われます。</p>
+  </div>
+
+  <div class="tip">先輩からのアドバイス：<b>長く話すより、分かりやすく話すことが大事。</b>「自分がどんなことで今の世界に貢献できるか」を考えておくと強いです。テーマが前日に知らされることもあります。</div>
+
+  <!-- 1. 自分のスピーチを作る -->
+  <div class="card">
+    <h3>① 自分のスピーチを作る</h3>
+    <p class="sub">日本語で書けばOK。ChatGPTが英語のスピーチにしてくれます。</p>
+    <label class="f">テーマ</label>
+    <div class="chips" id="themeChips"></div>
+    <label class="f" for="me">名前と、ふだんの仕事・活動</label>
+    <input type="text" id="me" placeholder="例：花子。フラワーアーティスト。子ども食堂のNPOも">
+    <label class="f" for="why">そのテーマが大事だと思う理由・エピソード</label>
+    <textarea id="why" placeholder="例：一人でごはんを食べる子どもがいる。温かい食事と居場所で未来が変わるのを見てきた"></textarea>
+    <label class="f" for="act">聞いている人にしてほしいこと</label>
+    <input type="text" id="act" placeholder="例：自分の町の子どもに1時間・1食・ひとことの優しさを">
+    <div style="margin-top:16px">
+      <a class="btn" id="toGpt" target="_blank" rel="noopener">ChatGPTで英語スピーチにする</a>
+      <button class="btn ghost" id="copyPrompt">頼む文章をコピーする</button>
+      <p class="note hidden" id="copiedPrompt" style="text-align:center;margin:8px 0 0">コピーしました。ChatGPTに貼り付けてください</p>
+    </div>
+    <label class="f" for="mine">できた英文をここに貼っておく（この端末に保存されます）</label>
+    <textarea id="mine" placeholder="Hello, I am ..." style="min-height:150px;font-family:Georgia,serif"></textarea>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn ghost" data-say="mine">🔊 読み上げ</button>
+      <button class="btn ghost" id="countWords">⏱ 長さを確認</button>
+    </div>
+    <p class="note" id="wordInfo" style="margin:8px 0 0"></p>
+  </div>
+
+  <!-- 2. お手本 -->
+  <div class="card">
+    <h3>② お手本スピーチ（約50秒）</h3>
+    <p class="sub">[name] を自分の名前に変えればそのまま使えます。読み上げを聞いて、まねして練習しましょう。</p>
+    <div class="chips" style="margin-bottom:10px">
+      <button aria-pressed="false" data-rate="0.8">ゆっくり</button>
+      <button aria-pressed="true" data-rate="0.95">ふつう</button>
+    </div>
+    <div id="samples"></div>
+  </div>
+
+  <!-- 3. 練習タイマーと録音 -->
+  <div class="card">
+    <h3>③ 本番のつもりで練習</h3>
+    <p class="sub">45秒を過ぎたら黄色、60秒を過ぎたら赤になります。録音して自分の声を聞いてみましょう（録音はこの端末の中だけで、どこにも送られません）。</p>
+    <div class="timer" id="timer">0:00</div>
+    <div class="btn-row">
+      <button class="btn" id="tStart">▶ スタート</button>
+      <button class="btn ghost" id="tReset">リセット</button>
+    </div>
+    <button class="btn red" id="rec" style="margin-top:10px">● 録音しながら練習</button>
+    <audio id="play" controls class="hidden" style="width:100%;margin-top:10px"></audio>
+  </div>
+
+  <!-- 4. 面接 -->
+  <div class="card">
+    <h3>④ 面接でよく聞かれる質問</h3>
+    <p class="sub">答えは短く、笑顔で、ゆっくり。[ ] の中を自分のことに変えます。</p>
+    <div id="qa"></div>
+  </div>
+
+  <div class="card">
+    <h3>困ったときのひとこと</h3>
+    <div id="phrases"></div>
+  </div>
+
+  <footer>非公式のチーム用ページです</footer>
+</main>
+
+<script src="assets/common.js"></script>
+<script>
+  const THEMES = ['サステナブルファッション', '気候変動', '環境への責任', '自分の社会活動'];
+  const SAMPLES = [
+    { title: 'サステナブルファッション', en:
+`Hello, I am [name] from Japan.
+In Japan, we have a beautiful word: "mottainai." It means, don't waste what still has value.
+Every year, millions of tons of clothes are thrown away, even though they can still be worn.
+I believe fashion should make people shine without hurting our planet.
+That is why I repair, reuse, and upcycle my clothes, and I buy fewer, better pieces that last.
+My message today is simple. Before you throw something away, ask yourself: "Can I give it a second life?"
+Small choices, made by many people, can change the whole industry.
+Let's make fashion beautiful, inside and out. Thank you.`,
+      ja: '日本には「もったいない」という美しい言葉があります。まだ価値のあるものを無駄にしない、という意味です。毎年、まだ着られる服が何百万トンも捨てられています。ファッションは地球を傷つけずに人を輝かせるものであるべきだと思います。だから私は服を直し、再利用し、作り変え、長く使える良いものを少しだけ買います。捨てる前に「これに第二の人生をあげられないか」と自分に問いかけてください。たくさんの人の小さな選択が業界全体を変えます。' },
+    { title: '気候変動', en:
+`Hello, I am [name] from Japan.
+Japan is a country of four beautiful seasons, but our seasons are changing.
+Summers are getting hotter, and heavy rains and typhoons are getting stronger every year.
+Climate change is not a problem for the future. It is happening now, to real families.
+As a model, I have a voice, and I want to use it.
+I walk or take the train when I can, I carry my own bottle and bag, and I share simple eco tips with my followers.
+My call to action is this: choose one small habit today, and keep it for one year.
+When we act together, our children will still enjoy the four seasons. Thank you.`,
+      ja: '日本は美しい四季の国ですが、その季節が変わりつつあります。夏は年々暑くなり、大雨や台風も強くなっています。気候変動は未来の問題ではなく、いま本当の家族に起きていることです。モデルとして私には声があり、それを使いたい。歩けるときは歩き、マイボトルとマイバッグを持ち、フォロワーに簡単なエコの工夫を伝えています。今日ひとつ小さな習慣を選び、1年続けてください。一緒に行動すれば、子どもたちも四季を楽しめます。' },
+    { title: '自分の社会活動（例：子どもの居場所づくり）', en:
+`Hello, I am [name] from Japan.
+I am a flower artist, and I also support a community kitchen for children.
+Flowers taught me that every living thing needs care to bloom. Children are the same.
+In Japan, some children eat alone, or do not have enough food.
+A warm meal and a safe place can change a child's future.
+Through my work, I create spaces where children and families feel welcome.
+My message is: look around your own town. Give one hour, one meal, or one kind word to a child.
+When we take care of the next generation, we also take care of our planet's future. Thank you.`,
+      ja: '私はフラワーアーティストで、子ども食堂の活動もしています。花から、すべての命は手をかけてこそ咲くと学びました。子どもも同じです。日本には一人でごはんを食べる子や、十分に食べられない子がいます。温かい食事と安心できる場所は、子どもの未来を変えます。自分の町を見回して、子どもに1時間、1食、ひとことの優しさをあげてください。次の世代を大切にすることは、地球の未来を大切にすることです。' },
+  ];
+  const QA = [
+    ['Please introduce yourself.', 'I\'m [name] from [city], Japan. I work as a [job]. I love [hobby]. I\'m so happy to be here to represent Japan.', '自己紹介をしてください'],
+    ['Why did you join Runway Model Universe?', 'I joined because I want to show that fashion can be beautiful and kind to the earth, and I want to represent Japan on a world stage.', 'なぜこの大会に出たのですか'],
+    ['What does sustainable fashion mean to you?', 'To me, it means respecting clothes and the people who make them. In Japan we say "mottainai." I try to wear things longer and give them a second life.', 'あなたにとってサステナブルファッションとは'],
+    ['What is your advocacy?', 'My advocacy is [theme]. I want to [action], because [reason].', 'あなたが訴えたいテーマは'],
+    ['How can you contribute to the world?', 'Through my work as a [job], I can [what you can do]. Even small actions can inspire many people.', 'あなたは世界にどう貢献できますか'],
+    ['What will you do if you win?', 'I will use this title to share my message in Japan and around Asia, and to inspire young people to follow their dreams.', '優勝したら何をしますか'],
+    ['Who is your role model?', 'My role model is [person], because [reason]. I want to be someone who gives courage to others, just like [him / her].', '尊敬する人は誰ですか'],
+    ['Tell us about Japan.', 'Japan is a country of respect and harmony. We have beautiful nature, four seasons, and delicious food. Please visit Japan someday!', '日本について教えてください'],
+  ];
+  const PHRASES = [
+    ['Could you say that again, please?', 'もう一度言っていただけますか'],
+    ['Could you speak a little more slowly, please?', 'もう少しゆっくり話していただけますか'],
+    ['Let me think for a moment.', '少し考えさせてください'],
+    ['Thank you for the question.', 'ご質問ありがとうございます'],
+    ['Nice to meet you. I\'m from Japan.', 'はじめまして。日本から来ました'],
+  ];
+
+  // 読み上げ
+  let rate = 0.95;
+  function say(text) {
+    if (!('speechSynthesis' in window)) { alert('この端末では読み上げが使えません'); return; }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/\[name\]/g, 'Hana'));
+    u.lang = 'en-US'; u.rate = rate;
+    speechSynthesis.speak(u);
+  }
+  document.querySelectorAll('[data-rate]').forEach((b) => b.addEventListener('click', () => {
+    rate = Number(b.dataset.rate);
+    document.querySelectorAll('[data-rate]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+
+  document.getElementById('samples').innerHTML = SAMPLES.map((s, i) => `
+    <details${i === 0 ? ' open' : ''}><summary>${s.title}</summary><div>
+      <div class="en-box">${s.en}</div>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn ghost" data-sample="${i}">🔊 読み上げ</button>
+        <button class="btn ghost" data-use="${i}">これを使う</button>
+      </div>
+      <p class="ja">和訳：${s.ja}</p></div></details>`).join('');
+  document.getElementById('qa').innerHTML = QA.map(([q, a, ja]) => `
+    <details><summary>${q}</summary><div>
+      <p class="ja" style="margin:0 0 8px">${ja}</p>
+      <div class="en-box">${a}</div>
+      <button class="btn ghost" style="margin-top:10px" data-text="${encodeURIComponent(q + ' ... ' + a)}">🔊 読み上げ</button>
+    </div></details>`).join('');
+  document.getElementById('phrases').innerHTML = PHRASES.map(([en, ja]) => `
+    <details><summary>${en}</summary><div><p class="ja" style="margin:0 0 8px">${ja}</p>
+      <button class="btn ghost" data-text="${encodeURIComponent(en)}">🔊 読み上げ</button></div></details>`).join('');
+
+  document.body.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.sample) say(SAMPLES[b.dataset.sample].en);
+    if (b.dataset.text) say(decodeURIComponent(b.dataset.text));
+    if (b.dataset.say === 'mine') say(document.getElementById('mine').value || 'Please paste your speech first.');
+    if (b.dataset.use) {
+      const mine = document.getElementById('mine');
+      mine.value = SAMPLES[b.dataset.use].en; store.set('rmu.speech.mine', mine.value);
+      mine.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  // スピーチ作成（ChatGPTに頼む文章）
+  let theme = store.get('rmu.speech.theme', THEMES[0]);
+  const chips = document.getElementById('themeChips');
+  chips.innerHTML = THEMES.map((t) => `<button aria-pressed="${t === theme}">${t}</button>`).join('');
+  chips.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    theme = b.textContent; store.set('rmu.speech.theme', theme);
+    chips.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    updatePrompt();
+  });
+  const fields = ['me', 'why', 'act', 'mine'];
+  fields.forEach((id) => {
+    const el = document.getElementById(id);
+    el.value = store.get('rmu.speech.' + id, '');
+    el.addEventListener('input', () => { store.set('rmu.speech.' + id, el.value); updatePrompt(); });
+  });
+  function promptText() {
+    const v = (id) => document.getElementById(id).value.trim() || '（未記入）';
+    return `あなたは国際モデル大会のスピーチコーチです。
+カナダで開かれる Runway Model Universe（サステナブルファッションがテーマの国際モデル大会）に日本代表として出場します。
+カメラの前で話す「アドボカシースピーチ」を作ってください。
+
+・長さ：45秒〜1分（英語で110〜140語）
+・中学生でも読めるやさしい英語。一文は短く
+・構成：あいさつと自己紹介 → テーマが大事な理由（自分のエピソード）→ 聞いている人への具体的な呼びかけ → 締めの一言
+・最初は「Hello, I am ... from Japan.」で始める
+
+テーマ：${theme}
+名前と活動：${v('me')}
+理由・エピソード：${v('why')}
+してほしいこと：${v('act')}
+
+出力は ①英文スピーチ ②和訳 ③強く・ゆっくり言うと良い単語 の3つにしてください。`;
+  }
+  function updatePrompt() {
+    document.getElementById('toGpt').href = 'https://chatgpt.com/?q=' + encodeURIComponent(promptText());
+  }
+  updatePrompt();
+  document.getElementById('copyPrompt').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(promptText()); document.getElementById('copiedPrompt').classList.remove('hidden'); }
+    catch { prompt('この文章をコピーしてください', promptText()); }
+  });
+  document.getElementById('countWords').addEventListener('click', () => {
+    const n = (document.getElementById('mine').value.match(/[A-Za-z']+/g) || []).length;
+    const sec = Math.round(n / 2.3);
+    document.getElementById('wordInfo').textContent = n
+      ? `${n}語 ≒ 約${sec}秒（ゆっくり話した場合）。${sec < 45 ? 'もう少し足しても大丈夫です' : sec > 62 ? '少し長いので削りましょう' : 'ちょうど良い長さです'}`
+      : '英文を貼ってから押してください';
+  });
+
+  // タイマー
+  let t0 = 0, timerId = null;
+  const tEl = document.getElementById('timer');
+  function drawTimer() {
+    const s = Math.floor((Date.now() - t0) / 1000);
+    tEl.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+    tEl.style.color = s >= 60 ? 'var(--red)' : s >= 45 ? '#f2c94c' : 'var(--gold-2)';
+  }
+  function startTimer() { t0 = Date.now(); clearInterval(timerId); timerId = setInterval(drawTimer, 250); drawTimer(); }
+  function stopTimer() { clearInterval(timerId); timerId = null; }
+  document.getElementById('tStart').addEventListener('click', (e) => {
+    if (timerId) { stopTimer(); e.target.textContent = '▶ スタート'; } else { startTimer(); e.target.textContent = '■ ストップ'; }
+  });
+  document.getElementById('tReset').addEventListener('click', () => {
+    stopTimer(); tEl.textContent = '0:00'; tEl.style.color = ''; document.getElementById('tStart').textContent = '▶ スタート';
+  });
+
+  // 録音（端末内だけ）
+  let rec = null;
+  document.getElementById('rec').addEventListener('click', async (e) => {
+    const btn = e.target;
+    if (rec && rec.state === 'recording') { rec.stop(); return; }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const chunks = [];
+      rec = new MediaRecorder(stream);
+      rec.ondataavailable = (ev) => chunks.push(ev.data);
+      rec.onstop = () => {
+        stream.getTracks().forEach((t) => t.stop());
+        stopTimer(); document.getElementById('tStart').textContent = '▶ スタート';
+        const a = document.getElementById('play');
+        a.src = URL.createObjectURL(new Blob(chunks, { type: rec.mimeType }));
+        a.classList.remove('hidden');
+        btn.textContent = '● もう一度録音';
+      };
+      rec.start(); startTimer(); btn.textContent = '■ 録音をとめる';
+    } catch {
+      alert('マイクが使えませんでした。ブラウザの設定でマイクを許可してください');
+    }
+  });
+
+  bottomNav('speech.html');
+</script>
+</body>
+</html>

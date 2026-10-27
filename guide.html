@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>チームJAPAN しおり</title>
+<meta name="description" content="RMU 2026 チームJAPANの日程・衣装・持ち物">
+<meta name="theme-color" content="#0d0b08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="back" href="index.html" aria-label="ホームへ">‹</a><h1>しおり</h1><span class="flag">📖</span></div></header>
+
+<main class="wrap">
+  <div class="card" style="margin-top:16px">
+    <div class="clock">
+      <div><small>🇨🇦 エドモントン いま</small><b id="nowLocal">--:--</b><small id="dayLocal"></small></div>
+      <div><small>🇯🇵 日本 いま</small><b id="nowJp">--:--</b><small id="dayJp"></small></div>
+    </div>
+    <p class="note" style="margin:10px 0 0">日本のほうが <b style="color:var(--text)">15時間</b> 進んでいます（現地の朝8時＝日本の夜11時）。予定の時刻はすべて現地時刻、小さい字が日本時間です。</p>
+  </div>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="day"></div>
+
+  <div class="warn">
+    予定は大会側の都合で変わることがあります。<b>最新の連絡はグループLINE</b>で確認してください。
+  </div>
+
+  <div class="card" id="airport">
+    <h3>✈️ 10/27 空港での集合</h3>
+    <ul class="check" style="margin-top:4px">
+      <li><label><span>到着したら手荷物を受け取り、<b>到着ロビー（一般エリア）</b>で待つ</span></label></li>
+      <li><label><span>目印は <b>RMUの大きなバナーとレッドカーペット</b>。手荷物受取所（バゲージクレーム）の近くです</span></label></li>
+      <li><label><span>最後の到着は <b>20:55</b>（よう子さん・高橋さん）。<b>全員そろうまで空港内でまとまって待つ</b></span></label></li>
+      <li><label><span>大会創設者の <b>Vermontさん</b> がまとめて迎えに来てくれます</span></label></li>
+      <li><label><span>10/27の前泊ホテル代は自己負担。Vermontさんが立て替える場合は、到着時に<b>現金</b>で返す</span></label></li>
+    </ul>
+    <p class="note" style="margin:6px 0 0">三四郎さん 18:39着（ポーター航空 PD405）／木野さんは 10/28 の夜に到着</p>
+  </div>
+
+  <div class="card">
+    <h3>👗 持っていく衣装</h3>
+    <ul class="check" id="wear"></ul>
+    <p class="note" style="margin:8px 0 0">どの日にどれを着るかは、変更が続いています。前日にグループLINEで確認しましょう。</p>
+  </div>
+
+  <div class="card">
+    <h3>✂️ アップサイクル制作で使う材料（10/29 13:00〜16:00）</h3>
+    <p class="sub">古着を、その場で着られる衣装に作り変える競技です。完成品は 10/30 のファイナル第2部で着ます。<b style="color:var(--text)">主催者は材料を用意しません。当日の買い物も避けるように</b>と案内されています。</p>
+    <ul class="check" id="upcycle"></ul>
+  </div>
+
+  <div class="card">
+    <h3>🧳 出発前チェック</h3>
+    <ul class="check" id="prep"></ul>
+  </div>
+
+  <div class="card">
+    <h3>🌡️ 現地メモ</h3>
+    <p class="sub" style="margin:0">
+      <b style="color:var(--text)">寒さ</b>：最高10℃・最低0℃くらい。真冬の服装で。<br>
+      <b style="color:var(--text)">コンセント</b>：日本と同じAタイプ。スマホ・カメラ・パソコンは変換プラグなしで使えます。<br>
+      <b style="color:var(--text)">会場</b>：Holiday Inn &amp; Conference Centre<br>4485 Gateway Boulevard NW, Edmonton, Alberta<br>
+      <a href="https://www.google.com/maps/search/?api=1&query=Holiday+Inn+Conference+Centre+4485+Gateway+Boulevard+NW+Edmonton" target="_blank" rel="noopener">地図で開く</a>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>🆘 困ったとき</h3>
+    <p class="sub" style="margin:0">
+      <b style="color:var(--text)">警察・救急・消防</b>：911<br>
+      <b style="color:var(--text)">日本の総領事館</b>（アルバータ州の担当）：<a href="https://www.calgary.ca.emb-japan.go.jp/" target="_blank" rel="noopener">在カルガリー日本国総領事館</a><br>
+      パスポートをなくしたときは、まず総領事館へ連絡します。
+    </p>
+  </div>
+
+  <footer>非公式のチーム用ページです｜大会の最新情報はグループLINEが正です</footer>
+</main>
+
+<script src="assets/common.js"></script>
+<script>
+  // 予定（現地時刻）。star は大事な予定
+  const VENUE = 'Holiday Inn & Conference Centre, 4485 Gateway Blvd NW, Edmonton';
+  const DAYS = [
+    { date: '2026-10-27', label: '10/27 火', title: '移動・到着日', items: [
+      { t: '18:39', what: '三四郎さん 到着', where: 'エドモントン国際空港（YEG）ポーター航空 PD405' },
+      { t: '20:55', what: '全員そろって空港を出発', where: 'YEG 到着ロビー（RMUのバナーとレッドカーペットが目印）', note: 'よう子さん・高橋さんが最後に到着。Vermontさんがお迎え', star: true },
+      { t: '夜', what: '前泊ホテルへ', where: '男性2名で1室・女性2名で1室', note: 'この日の宿泊費は自己負担' },
+    ]},
+    { date: '2026-10-28', label: '10/28 水', title: '1日目', items: [
+      { t: '午前', what: '前泊ホテルをチェックアウトして、大会の公式ホテルへ' },
+      { t: '10:00', what: '代表者の到着受付', where: 'ファンクションルーム', wear: '全身白のエレガントな服装' },
+      { t: '11:00', what: 'オリエンテーション', where: 'ファンクションルーム' },
+      { t: '13:00', what: 'ポートフォリオ撮影', where: 'ファンクションルーム', note: '水着は写真撮影のときだけ使う（ファイナル本番では着ない）', star: true },
+      { t: '17:00', what: 'リハーサル', where: 'ファンクションルーム' },
+      { t: '19:00', what: 'メディア発表・カルチャーファッション', where: 'Seafood City Edmonton', wear: '民族衣装', star: true },
+      { t: '夜', what: '木野さん 到着' },
+    ]},
+    { date: '2026-10-29', label: '10/29 木', title: '2日目', items: [
+      { t: '08:00', what: '表敬訪問', where: 'エドモントン市庁舎' },
+      { t: '10:00', what: '市内観光', where: '博物館・アルバータ州議会議事堂・ミュタート温室植物園' },
+      { t: '12:00', what: '昼食', where: 'ウェスト・エドモントン・モール（サンタマリア号のレプリカ）' },
+      { t: '13:00', end: '16:00', what: 'アップサイクル制作（競技）', where: '材料は全部持参', star: true },
+      { t: '制作後', what: '非公開面接 → スピーチ録画', note: '時間は後日発表。スピーチは45秒〜1分。上位3名に入ると会場の大画面で流れます', wear: 'ビジネスフォーマル（エグゼクティブスタイル）', star: true },
+      { t: '20:00', what: 'リハーサル', where: 'ファンクションルーム' },
+    ]},
+    { date: '2026-10-30', label: '10/30 金', title: 'ファイナル', items: [
+      { t: '08:00', what: 'リハーサル', where: 'ファンクションルーム' },
+      { t: '13:00', what: 'リハーサル', where: 'グランドボールルーム' },
+      { t: '16:30', what: 'キッズのハロウィンパーティー', note: '子ども向けのイベント。チームJAPANは出演なし・仮装不要' },
+      { t: '18:00', what: 'Voice of Alberta（キッズ歌唱）ファイナル', where: 'グランドボールルーム' },
+      { t: '19:00', what: 'ディナー', where: 'グランドボールルーム' },
+      { t: '20:00', end: '23:00', what: 'RMU インターナショナル・ファイナル', where: 'グランドボールルーム', wear: '女性：イブニングドレス（黒・金）／男性：スーツかタキシード（黒・金）', star: true },
+      { t: '21:00', what: 'オンライン投票の締切', note: '日本時間 10/31（土）12:00', star: true },
+    ]},
+    { date: '2026-10-31', label: '10/31 土', title: '帰国日', items: [
+      { t: '12:00', what: 'ホテルのチェックアウト期限' },
+      { t: '12:40', what: '帰りの便（よう子さんが案内した目安）', where: 'エドモントン国際空港（YEG）', note: '空港への移動時間を考えて、早めにホテルを出る' },
+    ]},
+  ];
+
+  const at = (date, t) => /^\d\d:\d\d$/.test(t) ? new Date(`${date}T${t}:00-06:00`) : null;
+
+  function renderDay(i) {
+    const d = DAYS[i];
+    document.querySelectorAll('#tabs button').forEach((b, j) => b.setAttribute('aria-selected', String(i === j)));
+    store.set('rmu.guide.day', i);
+    document.getElementById('day').innerHTML = `
+      <div class="card"><h3>${d.label}｜${d.title}</h3><ul class="tl">${d.items.map((it) => {
+        const s = at(d.date, it.t);
+        const e = it.end ? at(d.date, it.end) : null;
+        const jp = s ? `<small>日本 ${mdw(s, TZ_JP)}<br>${hm(s, TZ_JP)}</small>` : '';
+        const cal = s ? `<a class="cal" target="_blank" rel="noopener" href="${gcalLink({
+          title: `【RMU】${it.what}`, start: s, end: e,
+          details: [it.where, it.note, it.wear && `服装：${it.wear}`, '現地時刻 ' + it.t + '（エドモントン）', location.href].filter(Boolean).join('\n'),
+          location: it.where && !it.where.includes('材料') ? `${it.where}, Edmonton` : VENUE,
+        })}">📅 カレンダー登録</a>` : '';
+        return `<li class="${it.star ? 'star' : ''}">
+          <div class="t">${it.t}${it.end ? `<small>〜${it.end}</small>` : ''}${jp}</div>
+          <div class="what"><b>${it.what}</b>
+            ${it.where ? `<div class="where">📍 ${it.where}</div>` : ''}
+            ${it.note ? `<div class="where">${it.note}</div>` : ''}
+            ${it.wear ? `<div class="wear">👗 ${it.wear}</div>` : ''}
+            ${cal}</div></li>`;
+      }).join('')}</ul></div>`;
+  }
+
+  // 初期タブ：今日（現地）があればその日、なければ前回見た日
+  const todayLocal = new Intl.DateTimeFormat('en-CA', { timeZone: TZ_LOCAL }).format(new Date());
+  const todayIdx = DAYS.findIndex((d) => d.date === todayLocal);
+  document.getElementById('tabs').innerHTML = DAYS.map((d, i) =>
+    `<button role="tab" data-i="${i}">${d.label}</button>`).join('');
+  document.getElementById('tabs').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (b) renderDay(Number(b.dataset.i));
+  });
+  renderDay(todayIdx >= 0 ? todayIdx : Math.min(store.get('rmu.guide.day', 0), DAYS.length - 1));
+
+  // チェックリスト（チェックはこの端末にだけ保存）
+  function checklist(id, items) {
+    const saved = store.get('rmu.check.' + id, {});
+    const ul = document.getElementById(id);
+    ul.innerHTML = items.map((t, i) =>
+      `<li><label><input type="checkbox" data-i="${i}"${saved[i] ? ' checked' : ''}><span>${t}</span></label></li>`).join('');
+    ul.addEventListener('change', (e) => { saved[e.target.dataset.i] = e.target.checked; store.set('rmu.check.' + id, saved); });
+  }
+  checklist('wear', [
+    '全身白のエレガントな服装（到着・初日）',
+    '民族衣装（カルチャーファッション）',
+    '公式Tシャツ（記者会見・タスキ授与）',
+    'エレガントカジュアル・屋外撮影用の服',
+    'ビジネスフォーマル（10/29 面接）',
+    'ファイナル用 黒1着・金1着（女性：イブニングドレス／男性：スーツかタキシード）',
+    '水着（写真撮影のときだけ）',
+    'ヒール・靴・アクセサリー',
+  ]);
+  checklist('upcycle', [
+    '古着（シャツ・ズボン・スカート・ドレス・ジャケットなど）',
+    '裁縫道具（針・糸・ハサミ・ピン・メジャー）',
+    'ボタン・ファスナー・ストラップ・ひも・リボン・布の端切れ',
+    '布用の接着剤',
+    '事前に考えたデザイン案（スマホに写真で）',
+  ]);
+  checklist('prep', [
+    'パスポート（残り6か月以上あるか）',
+    'eTA（カナダの電子渡航認証）の申請（7ドル）',
+    'スーツケースに貼る自分の顔写真（出発前に空港で記念撮影→しまう→現地でまた貼る）',
+    '真冬の服（ダウン・手袋・マフラー）',
+    '英語の自己紹介とスピーチ（45秒〜1分）の練習',
+    'スマホでChatGPTや翻訳アプリを使えるようにしておく',
+    '前泊ホテル代を返すための現金（カナダドル）',
+    'グループLINEで到着便を連絡済み',
+  ]);
+
+  // いまの時刻
+  (function clock() {
+    const n = new Date();
+    document.getElementById('nowLocal').textContent = hm(n, TZ_LOCAL);
+    document.getElementById('dayLocal').textContent = mdw(n, TZ_LOCAL);
+    document.getElementById('nowJp').textContent = hm(n, TZ_JP);
+    document.getElementById('dayJp').textContent = mdw(n, TZ_JP);
+    setTimeout(clock, 15000);
+  })();
+  bottomNav('guide.html');
+</script>
+</body>
+</html>

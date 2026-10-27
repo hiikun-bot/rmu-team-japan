@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>チームJAPAN RMU 2026</title>
+<meta name="description" content="Runway Model Universe 第4回大会（カナダ・エドモントン）日本代表チームのページ">
+<meta property="og:title" content="チームJAPAN 🇯🇵 RMU 2026">
+<meta property="og:description" content="日本代表4名を応援してください！投票・日程・スピーチ練習・写真共有">
+<meta property="og:image" content="https://hiikun-bot.github.io/rmu-team-japan/assets/img/kana.jpg">
+<meta name="theme-color" content="#0d0b08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><h1>チームJAPAN</h1><span class="flag">🇯🇵</span></div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">RUNWAY MODEL UNIVERSE 4TH EDITION</div>
+    <h2>カナダ・エドモントン<br>世界大会 2026</h2>
+    <p>2026年10月28日〜31日｜Holiday Inn &amp; Conference Centre</p>
+  </section>
+
+  <div class="card">
+    <h3>🏆 グランドファイナルまで</h3>
+    <div class="sub" id="finalWhen"></div>
+    <div id="cdFinal"></div>
+  </div>
+
+  <nav class="menu">
+    <a href="vote.html">
+      <span class="ico">🗳️</span>
+      <span><b>投票で応援する</b><span class="d">4人の投票ページと、投票のやり方。応援してくれる人に送ってください</span></span>
+      <span class="go">›</span>
+    </a>
+    <a href="guide.html">
+      <span class="ico">📖</span>
+      <span><b>しおり</b><span class="d">日ごとの予定（現地と日本の時刻）・衣装・持ち物・空港の集合場所</span></span>
+      <span class="go">›</span>
+    </a>
+    <a href="speech.html">
+      <span class="ico">🎤</span>
+      <span><b>スピーチ・面接の練習</b><span class="d">10/29の英語面接と、45秒〜1分のスピーチ録画の準備</span></span>
+      <span class="go">›</span>
+    </a>
+    <a href="photos.html">
+      <span class="ico">📸</span>
+      <span><b>写真・動画の共有</b><span class="d">みんなで撮った写真と、撮影チームの映像を受け取る場所</span></span>
+      <span class="go">›</span>
+    </a>
+  </nav>
+
+  <div class="card">
+    <h3>チームJAPAN</h3>
+    <p class="sub" style="margin:0">
+      出場：阿部可奈さん・北田莉枝さん・橋本三四郎さん・中田論志さん<br>
+      ナショナルディレクター：木野幸久さん<br>
+      モデルエージェンシー：ささきよう子さん<br>
+      スタイリスト：春間隆満さん<br>
+      ビデオクリエーター：高橋聖さん
+    </p>
+  </div>
+
+  <footer>非公式のチーム用ページです｜大会の最新情報はグループLINEが正です</footer>
+</main>
+
+<script src="assets/common.js"></script>
+<script>
+  const f = new Date(KEY.final);
+  document.getElementById('finalWhen').textContent =
+    `現地 ${mdw(f, TZ_LOCAL)} ${hm(f, TZ_LOCAL)}／日本時間 ${mdw(f, TZ_JP)} ${hm(f, TZ_JP)}`;
+  countdown(document.getElementById('cdFinal'), KEY.final, 'ファイナルが始まりました！チームJAPAN がんばれ！');
+  bottomNav('index.html');
+</script>
+</body>
+</html>

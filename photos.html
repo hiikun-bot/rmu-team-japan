@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>写真・動画の共有</title>
+<meta name="description" content="RMU 2026 チームJAPANの写真と動画の共有">
+<meta name="theme-color" content="#0d0b08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="back" href="index.html" aria-label="ホームへ">‹</a><h1>写真・動画の共有</h1><span class="flag">📸</span></div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">TEAM JAPAN ALBUM</div>
+    <h2>みんなの写真を<br>ひとつのフォルダに</h2>
+    <p>それぞれのスマホで撮った写真・動画を集めて、全員で見られるようにします</p>
+  </section>
+
+  <div class="warn">
+    🗓️ このフォルダは <b>2026年12月27日に自動で削除</b>されます。残したい写真・動画は、それまでに自分のスマホに保存してください。
+  </div>
+
+  <div class="card" id="albumReady">
+    <h3>📷 みんなの写真・動画フォルダ</h3>
+    <a class="btn" id="albumLink" target="_blank" rel="noopener">フォルダを開く</a>
+    <p class="sub" style="margin:14px 0 6px"><b style="color:var(--text)">写真を入れる</b></p>
+    <ol class="steps">
+      <li>「フォルダを開く」を押す（Googleドライブのアプリか、ブラウザで開きます）</li>
+      <li><b>自分のGoogleアカウントでログイン</b>した状態で、「みんなの写真・動画」を開く</li>
+      <li>右下の「＋」→「アップロード」から、写真・動画を選ぶ</li>
+    </ol>
+    <p class="sub" style="margin:4px 0 6px"><b style="color:var(--text)">写真を保存する</b></p>
+    <ol class="steps">
+      <li>ほしい写真を開いて、右上の「︙」→「ダウンロード」（iPhoneは「コピーを送信」→「画像を保存」）</li>
+    </ol>
+    <p class="note" style="margin:0">ファイル名の先頭に自分の名前を付けると、誰の写真か分かりやすくなります。ほかの人の写真は消さないでください。</p>
+  </div>
+
+  <div class="card hidden" id="albumWait">
+    <h3>📷 みんなの写真・動画フォルダ</h3>
+    <p class="sub" style="margin:0">ただいま準備中です。用意ができたらグループLINEでお知らせします。</p>
+  </div>
+
+  <div class="card">
+    <h3>🎬 撮影チームの映像</h3>
+    <p class="sub" style="margin:0">高橋聖さんが撮影した写真・映像は、帰国後に整えて、同じフォルダの「撮影チームの映像（高橋）」に入れます。入れたらグループLINEでお知らせします。</p>
+  </div>
+
+  <div class="card">
+    <h3>📣 SNSに投稿するとき</h3>
+    <p class="sub">大会事務局から、すべてのSNS投稿でタグ付けしてほしいと依頼がありました。</p>
+    <p style="margin:0 0 6px"><b>タグ付け</b>：<a href="https://www.instagram.com/runwaymodeluniverse.ca/" target="_blank" rel="noopener">@runwaymodeluniverse.ca</a>（Instagram）</p>
+    <div class="en-box" id="tags" style="font-family:inherit;font-size:15px">#RunwayModelUniverse2026 #RMU4thEdition #RMU2026 #EdmontonCanada #TeamJapan #チームJAPAN</div>
+    <button class="btn ghost" id="copyTags" style="margin-top:10px">ハッシュタグをコピー</button>
+    <p class="note hidden" id="copiedTags" style="text-align:center;margin:8px 0 0">コピーしました</p>
+  </div>
+
+  <div class="tip">撮影のコツ：出発前の空港で、<b>顔写真を貼ったスーツケースと一緒に</b>記念撮影。到着ロビーの<b>RMUのバナーとレッドカーペット</b>の前、<b>日の丸とミニ国旗</b>を持った全員集合も撮っておきましょう。</div>
+
+  <footer>非公式のチーム用ページです</footer>
+</main>
+
+<script src="assets/common.js"></script>
+<script>
+  // 共有フォルダ（Googleドライブ、2026-12-27 に自動削除）のリンク。空なら「準備中」を表示
+  const ALBUM_URL = 'https://drive.google.com/drive/folders/1k8Iz0R9DqPRrQz7t2cBoIHqjIZC3mhLL';
+
+  if (ALBUM_URL) document.getElementById('albumLink').href = ALBUM_URL;
+  else {
+    document.getElementById('albumReady').classList.add('hidden');
+    document.getElementById('albumWait').classList.remove('hidden');
+  }
+  document.getElementById('copyTags').addEventListener('click', async () => {
+    const t = document.getElementById('tags').textContent;
+    try { await navigator.clipboard.writeText(t); document.getElementById('copiedTags').classList.remove('hidden'); }
+    catch { prompt('コピーしてください', t); }
+  });
+  bottomNav('photos.html');
+</script>
+</body>
+</html>
